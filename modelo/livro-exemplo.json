@@ -1,0 +1,20 @@
+{
+  "titulo": "Livro de demonstração sobre programação",
+  "autores": ["Autor de exemplo"],
+  "anoPublicacao": 2020,
+  "assuntos": ["Programming", "Software Engineering"],
+  "isbn": [],
+  "paginasMedias": 320,
+  "capaId": null,
+  "obraKey": "/local/livro-de-exemplo",
+  "favorito": false,
+  "nota": 0,
+  "comentario": "Registro ilustrativo para validar a estrutura do documento.",
+  "origem": {
+    "api": "Exemplo didático",
+    "chave": "/local/livro-de-exemplo",
+    "url": null
+  },
+  "criadoEm": "2026-10-25T12:00:00.000Z",
+  "atualizadoEm": "2026-10-25T12:00:00.000Z"
+}

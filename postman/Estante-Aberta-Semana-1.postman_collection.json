@@ -1,0 +1,156 @@
+{
+  "info": {
+    "_postman_id": "41ef17d7-7d2e-4b71-9c5d-9ccf58b80325",
+    "name": "Estante Aberta - Semana 1",
+    "description": "Somente as primeiras requisições da Semana 1: criar a coleção, consultar e inserir um documento de teste.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "admin",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "secret",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Criar coleção books (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"descr\": \"Coleção da Estante Aberta\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ]
+        },
+        "description": "Execute primeiro. Na primeira criação, o status esperado é 201 Created."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Criação da coleção: status esperado 201 ou já existente', function () {",
+              "  pm.expect([200, 201, 409]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Listar livros (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books?pagesize=100",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ],
+          "query": [
+            {
+              "key": "pagesize",
+              "value": "100"
+            }
+          ]
+        },
+        "description": "Depois de criar a coleção, a resposta esperada é 200 OK."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Listagem retorna 200 OK', function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Inserir livro de teste (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Livro de demonstração sobre programação\",\n  \"autores\": [\"Autor de exemplo\"],\n  \"anoPublicacao\": 2020,\n  \"assuntos\": [\"Programming\", \"Software Engineering\"],\n  \"isbn\": [],\n  \"paginasMedias\": 320,\n  \"capaId\": null,\n  \"obraKey\": \"/local/livro-de-exemplo\",\n  \"favorito\": false,\n  \"nota\": 0,\n  \"comentario\": \"Registro ilustrativo para validar a estrutura do documento.\",\n  \"origem\": {\n    \"api\": \"Exemplo didático\",\n    \"chave\": \"/local/livro-de-exemplo\",\n    \"url\": null\n  },\n  \"criadoEm\": \"2026-10-25T12:00:00.000Z\",\n  \"atualizadoEm\": \"2026-10-25T12:00:00.000Z\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ]
+        },
+        "description": "Insere um documento ilustrativo para validar o POST. A resposta esperada é 201 Created."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Inserção de documento retorna 201 Created', function () {",
+              "  pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
