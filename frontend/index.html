@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Explore livros e descubra novas histórias na Estante Aberta.">
+
+    <title>Estante Aberta | Minha Biblioteca</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+        <div class="container cabecalho-conteudo">
+
+            <a href="#inicio" class="logo">
+                <span>📚</span>
+                <h1>Estante Aberta</h1>
+            </a>
+
+            <nav class="navegacao">
+                <a href="#inicio">Início</a>
+                <a href="#biblioteca">Minha biblioteca</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- APRESENTAÇÃO -->
+    <main>
+
+        <section class="apresentacao" id="inicio">
+
+            <div class="container">
+
+                <span class="etiqueta">SUA BIBLIOTECA DIGITAL</span>
+
+                <h2>
+                    Um mundo de histórias<br>
+                    ao seu alcance.
+                </h2>
+
+                <p>
+                    Explore nossa coleção, descubra novos livros
+                    e encontre sua próxima leitura.
+                </p>
+
+                <a href="#biblioteca" class="botao-principal">
+                    Explorar biblioteca
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- BIBLIOTECA -->
+        <section class="biblioteca container" id="biblioteca">
+
+            <div class="titulo-biblioteca">
+
+                <div>
+                    <span class="subtitulo">
+                        DESCUBRA SUA PRÓXIMA LEITURA
+                    </span>
+
+                    <h2>Minha biblioteca</h2>
+
+                    <p>
+                        Todos os livros disponíveis na nossa coleção.
+                    </p>
+                </div>
+
+                <span id="quantidadeLivros">
+                    Carregando livros...
+                </span>
+
+            </div>
+
+
+            <!-- BUSCA -->
+            <div class="filtros">
+
+                <input
+                    type="search"
+                    id="campoBusca"
+                    placeholder="Buscar por título ou autor..."
+                    aria-label="Buscar livros por título ou autor"
+                >
+
+            </div>
+
+
+            <!-- CARDS DOS LIVROS -->
+            <div id="listaLivros" class="lista-livros">
+
+                <p id="mensagemCarregamento">
+                    Carregando nossa biblioteca...
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer class="rodape">
+
+        <div class="container">
+
+            <h2>📚 Estante Aberta</h2>
+
+            <p>Sua biblioteca, suas histórias.</p>
+
+            <small>
+                Estante Aberta © 2026 — Projeto acadêmico
+            </small>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>

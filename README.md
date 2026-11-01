@@ -7,9 +7,16 @@
 
 ## Integrantes do grupo
 
-- Integrantes: **[preencher com os nomes reais]**
-- Tema e ordem de preferência: **Livros — Open Library** *(confirmar a distribuição do tema com o professor)*
-- Papéis principais: **Dados/Docker:** [nome] · **API/HTTP:** [nome] · **Interface:** [nome]
+- Fellype Gabriel Carlins
+- Kelly Neuendorf
+- Nahayana Kermilin Vieira
+
+- Tema e ordem de preferência: **Livros — Open Library** (confirmar a distribuição do tema com o professor).
+
+- Papéis principais:
+  - **Dados/Docker:** Kelly Neuendorf
+  - **API/HTTP:** Nahayana Kermilin Vieira
+  - **Interface (Front-end):** Fellype Gabriel Carlins
 
 ## 1. Subir o banco no Docker
 
