@@ -1,0 +1,313 @@
+{
+  "info": {
+    "_postman_id": "7b8e0b36-2a8f-4b6c-93bb-9cf1d9c1ab11",
+    "name": "Estante Aberta - Open Library + RESTHeart",
+    "description": "Coleção de testes da atividade de APIs NoSQL. A API Open Library é usada somente para leitura. As operações CRUD são feitas no RESTHeart/MongoDB local.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "admin",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "secret",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "collection",
+      "value": "books",
+      "type": "string"
+    },
+    {
+      "key": "id",
+      "value": "COLE_AQUI_O_ID_DE_UM_LIVRO",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "0 - Open Library (GET origem)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://openlibrary.org/search.json?subject=programming&limit=30&fields=key,title,author_name,first_publish_year,cover_i,subject,edition_count",
+          "protocol": "https",
+          "host": [
+            "openlibrary",
+            "org"
+          ],
+          "path": [
+            "search.json"
+          ],
+          "query": [
+            {
+              "key": "subject",
+              "value": "programming"
+            },
+            {
+              "key": "limit",
+              "value": "30"
+            },
+            {
+              "key": "fields",
+              "value": "key,title,author_name,first_publish_year,cover_i,subject,edition_count"
+            }
+          ]
+        },
+        "description": "Consulta os livros de programação na API pública. A gravação dos dados é feita separadamente por POST no RESTHeart.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Open Library respondeu HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const dados = pm.response.json();",
+              "pm.test(\"A resposta contém a lista docs\", function () {",
+              "    pm.expect(dados.docs).to.be.an(\"array\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "1 - Criar coleção (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": "{{baseUrl}}/{{collection}}",
+        "description": "Criar a coleção books. Esperado: 201 Created na primeira criação."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Coleção criada com HTTP 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 - Listar livros (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{collection}}?pagesize=100&page=1",
+        "description": "Lista os documentos da coleção. Esperado: 200 OK."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Listagem respondeu HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Buscar livro por ID (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{collection}}/{{id}}",
+        "description": "Busca um documento específico. Esperado: 200 OK ou 404 Not Found."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Consulta por ID respondeu HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 - Inserir livro (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"The Pragmatic Programmer\",\n  \"autores\": [\"David Thomas\", \"Andrew Hunt\"],\n  \"anoPublicacao\": 1999,\n  \"numeroEdicoes\": 35,\n  \"capaId\": \"8231856\",\n  \"assuntos\": [\"Programming\", \"Software engineering\"],\n  \"favorito\": false,\n  \"nota\": 0,\n  \"comentario\": \"Livro de exemplo cadastrado pelo Postman\",\n  \"importadoEm\": \"2026-11-03T15:00:00.000Z\",\n  \"atualizadoEm\": \"2026-11-03T15:00:00.000Z\",\n  \"origem\": {\n    \"api\": \"Cadastro manual/Postman\",\n    \"obraKey\": \"manual-postman-001\",\n    \"url\": \"\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/{{collection}}",
+        "description": "Insere um documento com campos numéricos, data, listas e objeto embutido. Esperado: 201 Created."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Documento criado com HTTP 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Guarda automaticamente o ID retornado no cabeçalho Location.",
+              "let id = null;",
+              "const location = pm.response.headers.get(\"Location\");",
+              "if (location) {",
+              "    id = location.split(\"?\")[0].split(\"/\").filter(Boolean).pop();",
+              "}",
+              "if (!id) {",
+              "    try {",
+              "        const body = pm.response.json();",
+              "        id = body?._id?.$oid || body?._id || body?.id || null;",
+              "    } catch (erro) {",
+              "        console.warn(\"Não foi possível extrair o ID do corpo da resposta.\", erro);",
+              "    }",
+              "}",
+              "if (id) {",
+              "    pm.collectionVariables.set(\"id\", String(id));",
+              "    console.log(\"ID salvo na variável da coleção:\", id);",
+              "} else {",
+              "    console.warn(\"O RESTHeart não retornou o ID. Copie o ID manualmente para a variável id.\");",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 - Substituir livro inteiro (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"The Pragmatic Programmer - edição revisada\",\n  \"autores\": [\"David Thomas\", \"Andrew Hunt\"],\n  \"anoPublicacao\": 1999,\n  \"numeroEdicoes\": 40,\n  \"capaId\": \"8231856\",\n  \"assuntos\": [\"Programming\", \"Software engineering\"],\n  \"favorito\": true,\n  \"nota\": 4.5,\n  \"comentario\": \"Documento substituído integralmente pelo PUT\",\n  \"importadoEm\": \"2026-11-03T15:00:00.000Z\",\n  \"atualizadoEm\": \"2026-11-03T16:00:00.000Z\",\n  \"origem\": {\n    \"api\": \"Cadastro manual/Postman\",\n    \"obraKey\": \"manual-postman-001\",\n    \"url\": \"\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/{{collection}}/{{id}}",
+        "description": "Substitui o documento inteiro. Use o ID obtido no POST ou no GET de listagem. Esperado: 200 OK."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Documento substituído com HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 - Alterar favorito (PATCH)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"favorito\": true,\n  \"atualizadoEm\": \"2026-11-03T16:30:00.000Z\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/{{collection}}/{{id}}",
+        "description": "Altera apenas os campos enviados, sem substituir o documento. Esperado: 200 OK."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Documento atualizado parcialmente com HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7 - Excluir livro (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/{{collection}}/{{id}}",
+        "description": "Remove o documento pelo ID. Esperado: 204 No Content. Faça o teste por último, pois o documento será removido."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Documento excluído com HTTP 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,53 +1,111 @@
-# Estante Aberta — Entrega da Semana 1
+# Estante Aberta
 
-**Prazo:** 25/10/2026  
-**Disciplina:** Engenharia de Software — Banco de Dados  
-**Tema escolhido:** Livros  
-**API de origem:** Open Library Search API — `https://openlibrary.org/search.json?subject=programming&limit=30`
+Projeto desenvolvido para a atividade prática de Banco de Dados, utilizando uma API pública, MongoDB, RESTHeart e Docker.
 
-## Integrantes do grupo
+## 1. Integrantes
 
 - Fellype Gabriel Carlins
 - Kelly Neuendorf
 - Nahayana Kermilin Vieira
 
-- Tema e ordem de preferência: **Livros — Open Library** (confirmar a distribuição do tema com o professor).
+**Divisão de tarefas:**
+- Dados e Docker: Kelly Neuendorf
+- API e HTTP: Nahayana Kermilin Vieira
+- Frontend: Fellype Gabriel Carlins
 
-- Papéis principais:
-  - **Dados/Docker:** Kelly Neuendorf
-  - **API/HTTP:** Nahayana Kermilin Vieira
-  - **Interface (Front-end):** Fellype Gabriel Carlins
+## 2. Tema e API utilizada
 
-## 1. Subir o banco no Docker
+**Tema:** Livros
 
-Abra o PowerShell nesta pasta e execute:
+**API:** [Open Library](https://openlibrary.org/developers/api)
+
+A aplicação busca livros sobre programação e salva até 30 registros no MongoDB.
+
+## 3. Como executar o projeto
+
+É necessário ter o Docker Desktop instalado e em execução.
+
+Na pasta principal do projeto, execute:
 
 ```powershell
 docker compose up -d
+```
+
+Para verificar os containers:
+
+```powershell
 docker compose ps
 ```
 
-Os serviços `mongodb` e `restheart` devem aparecer em execução. Endereços locais:
+A aplicação estará disponível em:
 
-- RESTHeart: `http://localhost:8080`
-- MongoDB: `localhost:27017`
+- Frontend: http://localhost:3000
+- RESTHeart: http://localhost:8080
+- MongoDB: localhost:27017
 
-O volume nomeado `dados-mongo` mantém os dados ao reiniciar os containers.
+Para parar os containers:
 
-## 2. Modelo do documento JSON
+```powershell
+docker compose down
+```
 
-O arquivo `modelo/livro-exemplo.json` representa a estrutura prevista para um livro. Ele contém campos numéricos (`anoPublicacao`, `paginasMedias` e `nota`), datas (`criadoEm` e `atualizadoEm`), listas embutidas (`autores`, `assuntos`, `isbn`) e um objeto embutido (`origem`). Esses dados relacionados foram embutidos porque são exibidos junto ao registro do livro.
+Para apagar os containers e os dados armazenados:
 
-O registro é **ilustrativo**, usado somente para testar a estrutura; não afirma ser um livro importado da Open Library.
+```powershell
+docker compose down -v
+```
 
-## 3. Primeiras requisições no Postman
+## 4. Modelo do documento JSON
 
-Importe `postman/Estante-Aberta-Semana-1.postman_collection.json` no Postman. A autenticação Basic (`admin` / `secret`) e o endereço `http://localhost:8080` já estão configurados para o ambiente local.
+Exemplo de documento utilizado na coleção `books`:
 
-Execute nesta ordem:
+```json
+{
+  "titulo": "Livro de exemplo",
+  "autores": ["Autor de exemplo"],
+  "anoPublicacao": 2024,
+  "numeroEdicoes": 1,
+  "capaId": "",
+  "assuntos": ["Programação", "Tecnologia"],
+  "favorito": false,
+  "nota": 0,
+  "comentario": "",
+  "importadoEm": "2026-11-06T12:00:00.000Z",
+  "atualizadoEm": "2026-11-06T12:00:00.000Z",
+  "origem": {
+    "api": "Cadastro manual",
+    "obraKey": "manual-exemplo",
+    "url": ""
+  }
+}
+```
 
-1. **01 — Criar coleção books (PUT)** — primeira criação: `201 Created`.
-2. **02 — Listar livros (GET)** — `200 OK`.
-3. **03 — Inserir livro de teste (POST)** — `201 Created`.
+Os autores e assuntos foram armazenados em listas, enquanto a origem foi organizada em um objeto dentro do documento. Esses dados foram embutidos porque são utilizados junto às informações de cada livro.
 
-Após executar, guarde capturas de tela das respostas do Postman como evidência dos testes. As credenciais são apenas para o ambiente local da atividade; não as reutilize em produção.
+## 5. Métodos HTTP
+
+As operações são realizadas no RESTHeart, utilizando a coleção `books`.
+
+| Método | Endpoint | Status esperado |
+|---|---|---|
+| PUT | `/books` | 201 |
+| POST | `/books` | 201 |
+| GET | `/books?pagesize=100` | 200 |
+| GET | `/books/{id}` | 200 ou 404 |
+| PUT | `/books/{id}` | 200 |
+| PATCH | `/books/{id}` | 200 |
+| DELETE | `/books/{id}` | 204 |
+
+A autenticação local do RESTHeart utiliza usuário `admin` e senha `secret`.
+
+A coleção de requisições do Postman está disponível na pasta `postman`.
+
+## 7. Conclusão
+
+Com os livros cadastrados, foi possível analisar a quantidade de publicações por década, os assuntos mais frequentes e os autores com mais obras na coleção.
+
+**Conclusão dos dados:** [Inserir aqui os resultados observados após a importação dos livros.]
+
+## 8. Uso de inteligência artificial
+
+A inteligência artificial foi utilizada como apoio para esclarecer dúvidas, revisar e organizar partes do código. O grupo revisou o projeto e participou do desenvolvimento das funcionalidades.

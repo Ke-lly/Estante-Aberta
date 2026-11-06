@@ -1,6 +1,7 @@
 services:
   mongodb:
     image: mongo:7
+    container_name: estante-aberta-mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -9,6 +10,7 @@ services:
 
   restheart:
     image: softinstigate/restheart:8
+    container_name: estante-aberta-restheart
     restart: unless-stopped
     depends_on:
       - mongodb
@@ -16,6 +18,18 @@ services:
       RHO: '/mclient/connection-string->"mongodb://mongodb:27017";/http-listener/host->"0.0.0.0"'
     ports:
       - "8080:8080"
+
+  frontend:
+    image: nginx:alpine
+    container_name: estante-aberta-frontend
+    restart: unless-stopped
+    depends_on:
+      - restheart
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   dados-mongo:
