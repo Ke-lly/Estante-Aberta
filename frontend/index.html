@@ -1,134 +1,166 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="Explore livros e descubra novas histórias na Estante Aberta.">
-
+    <meta name="description" content="Explore, organize e acompanhe sua biblioteca digital na Estante Aberta.">
+    <meta name="theme-color" content="#243b35">
     <title>Estante Aberta | Minha Biblioteca</title>
-
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
     <script src="app.js" defer></script>
 </head>
-
 <body>
-
-    <!-- CABEÇALHO -->
     <header class="cabecalho">
         <div class="container cabecalho-conteudo">
-
-            <a href="#inicio" class="logo">
-                <span>📚</span>
+            <a href="#inicio" class="logo" aria-label="Estante Aberta - início">
                 <h1>Estante Aberta</h1>
             </a>
-
-            <nav class="navegacao">
+            <nav class="navegacao" aria-label="Navegação principal">
                 <a href="#inicio">Início</a>
-                <a href="#biblioteca">Minha biblioteca</a>
+                <a href="#biblioteca">Biblioteca</a>
+                <a href="#painel">Painel</a>
             </nav>
-
         </div>
     </header>
 
-
-    <!-- APRESENTAÇÃO -->
     <main>
-
         <section class="apresentacao" id="inicio">
-
-            <div class="container">
-
-                <span class="etiqueta">SUA BIBLIOTECA DIGITAL</span>
-
-                <h2>
-                    Um mundo de histórias<br>
-                    ao seu alcance.
-                </h2>
-
-                <p>
-                    Explore nossa coleção, descubra novos livros
-                    e encontre sua próxima leitura.
-                </p>
-
-                <a href="#biblioteca" class="botao-principal">
-                    Explorar biblioteca
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- BIBLIOTECA -->
-        <section class="biblioteca container" id="biblioteca">
-
-            <div class="titulo-biblioteca">
-
+            <div class="container apresentacao-conteudo">
                 <div>
-                    <span class="subtitulo">
-                        DESCUBRA SUA PRÓXIMA LEITURA
-                    </span>
-
-                    <h2>Minha biblioteca</h2>
-
-                    <p>
-                        Todos os livros disponíveis na nossa coleção.
-                    </p>
-                </div>
-
-                <span id="quantidadeLivros">
-                    Carregando livros...
-                </span>
-
-            </div>
-
-
-            <!-- BUSCA -->
-            <div class="filtros">
-
-                <input
-                    type="search"
-                    id="campoBusca"
-                    placeholder="Buscar por título ou autor..."
-                    aria-label="Buscar livros por título ou autor"
-                >
-
-            </div>
-
-
-            <!-- CARDS DOS LIVROS -->
-            <div id="listaLivros" class="lista-livros">
-
-                <p id="mensagemCarregamento">
-                    Carregando nossa biblioteca...
-                </p>
-
-            </div>
-
+                    <span class="etiqueta">SUA BIBLIOTECA DIGITAL</span>
+                    <h2>Um mundo de histórias<br>ao seu alcance.</h2>
+                    <p>Explore a coleção da Open Library, organize suas leituras e descubra informações sobre os livros da sua estante.</p>
+                    <a href="#biblioteca" class="botao-principal">Explorar biblioteca</a>
         </section>
 
+        <section class="biblioteca container secao" id="biblioteca">
+            <div class="titulo-secao">
+                <div>
+                    <span class="subtitulo">DESCUBRA SUA PRÓXIMA LEITURA</span>
+                    <h2>Minha biblioteca</h2>
+                    <p>Livros importados da Open Library e títulos cadastrados manualmente.</p>
+                </div>
+                <span id="quantidadeLivros" class="contador">Conectando...</span>
+            </div>
+
+            <div class="barra-acoes">
+                <button type="button" id="btnImportar" class="botao botao-secundario">⬇ Importar 30 livros</button>
+                <button type="button" id="btnNovoLivro" class="botao botao-principal-escuro">＋ Adicionar livro</button>
+                <button type="button" id="btnAtualizar" class="botao botao-neutro">↻ Atualizar</button>
+            </div>
+
+            <div id="mensagemSistema" class="mensagem" role="status" aria-live="polite" hidden></div>
+
+            <div class="filtros">
+                <label class="campo-busca">
+                    <span class="sr-only">Buscar por título, autor ou assunto</span>
+                    <input type="search" id="campoBusca" placeholder="Buscar por título, autor ou assunto...">
+                </label>
+                <label>
+                    <span class="sr-only">Filtrar por categoria</span>
+                    <select id="filtroCategoria">
+                        <option value="">Todas as categorias</option>
+                    </select>
+                </label>
+                <label>
+                    <span class="sr-only">Filtrar favoritos</span>
+                    <select id="filtroFavoritos">
+                        <option value="todos">Todos os livros</option>
+                        <option value="favoritos">Somente favoritos</option>
+                        <option value="nao-favoritos">Não favoritos</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="listaLivros" class="lista-livros" aria-live="polite">
+                <p id="mensagemCarregamento">Carregando nossa biblioteca...</p>
+            </div>
+        </section>
+
+        <section class="painel container secao" id="painel">
+            <div class="titulo-secao">
+                <div>
+                    <span class="subtitulo">DADOS TRANSFORMADOS EM INFORMAÇÃO</span>
+                    <h2>Painel da biblioteca</h2>
+                    <p>Os indicadores são recalculados após cada cadastro, edição, favorito ou exclusão.</p>
+                </div>
+            </div>
+
+            <div class="indicadores" id="indicadores">
+                <article class="indicador"><span>Total de livros</span><strong id="indicadorTotal">—</strong><small>Documentos na coleção</small></article>
+                <article class="indicador"><span>Favoritos</span><strong id="indicadorFavoritos">—</strong><small>Livros marcados</small></article>
+                <article class="indicador"><span>Ano médio</span><strong id="indicadorAnoMedio">—</strong><small>Média de publicação</small></article>
+                <article class="indicador"><span>Mais recente</span><strong id="indicadorAnoMaximo">—</strong><small>Ano mais atual da coleção</small></article>
+                <article class="indicador"><span>Nota média</span><strong id="indicadorNotaMedia">—</strong><small>Considera notas maiores que zero</small></article>
+                <article class="indicador"><span>Com capa</span><strong id="indicadorCapas">—</strong><small>Percentual da coleção</small></article>
+            </div>
+
+            <div class="graficos">
+                <article class="painel-card">
+                    <div class="painel-card-titulo"><h3>Livros por década</h3><span>Gráfico de barras</span></div>
+                    <div class="grafico-area"><canvas id="graficoDecadas" aria-label="Gráfico de livros por década" role="img"></canvas></div>
+                </article>
+                <article class="painel-card">
+                    <div class="painel-card-titulo"><h3>Livros por categoria</h3><span>Gráfico de rosca</span></div>
+                    <div class="grafico-area"><canvas id="graficoCategorias" aria-label="Gráfico de livros por categoria" role="img"></canvas></div>
+                </article>
+            </div>
+
+            <div class="listas-painel">
+                <article class="painel-card">
+                    <div class="painel-card-titulo"><h3>Ranking de autores</h3><span>Top 5</span></div>
+                    <ol id="rankingAutores" class="ranking-lista"><li>Carregando...</li></ol>
+                </article>
+                <article class="painel-card">
+                    <div class="painel-card-titulo"><h3>Agrupamento por categoria</h3><span>Quantidade de livros</span></div>
+                    <ul id="agrupamentoCategorias" class="agrupamento-lista"><li>Carregando...</li></ul>
+                </article>
+            </div>
+
+            <article class="painel-card conclusao-dados" aria-live="polite">
+                <div class="painel-card-titulo"><h3>O que os dados mostram</h3><span>Conclusão automática</span></div>
+                <p id="conclusaoDados">A conclusão será calculada assim que os livros forem carregados do banco de dados.</p>
+            </article>
+        </section>
     </main>
 
-
-    <!-- RODAPÉ -->
     <footer class="rodape">
-
         <div class="container">
-
-            <h2>📚 Estante Aberta</h2>
-
+            <h2>Estante Aberta</h2>
             <p>Sua biblioteca, suas histórias.</p>
-
-            <small>
-                Estante Aberta © 2026 — Projeto acadêmico
-            </small>
-
+            <small>Estante Aberta © 2026 — Projeto acadêmico de Engenharia de Software</small>
         </div>
-
     </footer>
+
+    <dialog id="modalLivro" class="modal">
+        <form id="formLivro" class="formulario" method="dialog">
+            <div class="modal-cabecalho">
+                <div><span class="subtitulo">SUA COLEÇÃO</span><h2 id="tituloModal">Adicionar livro</h2></div>
+                <button type="button" class="fechar-modal" id="fecharModal" aria-label="Fechar">×</button>
+            </div>
+            <input type="hidden" id="livroId">
+            <label>Título * <input type="text" id="tituloLivro" maxlength="250" required></label>
+            <label>Autor(es) * <input type="text" id="autoresLivro" placeholder="Separe vários autores por vírgula" required></label>
+            <div class="form-linha">
+                <label>Ano de publicação <input type="number" id="anoLivro" min="0" max="2100" step="1" placeholder="Ex.: 1997"></label>
+                <label>Número de edições <input type="number" id="edicoesLivro" min="0" max="100000" step="1" value="0" required></label>
+            </div>
+            <label>Assuntos/categorias <input type="text" id="assuntosLivro" placeholder="Ex.: programming, computers"></label>
+            <label>ID da capa na Open Library <input type="text" id="capaLivro" placeholder="Ex.: 8231856"></label>
+            <div class="form-linha">
+                <label>Nota (0 a 5) <input type="number" id="notaLivro" min="0" max="5" step="0.5" value="0"></label>
+                <label class="checkbox-label"><input type="checkbox" id="favoritoLivro"> Marcar como favorito</label>
+            </div>
+            <label>Comentário <textarea id="comentarioLivro" rows="3" maxlength="1000" placeholder="Escreva uma observação sobre o livro..."></textarea></label>
+            <p class="ajuda-formulario">Campos com * são obrigatórios. O ano pode ficar vazio quando não estiver disponível.</p>
+            <div class="acoes-formulario">
+                <button type="button" class="botao botao-neutro" id="cancelarFormulario">Cancelar</button>
+                <button type="submit" class="botao botao-principal-escuro" id="salvarLivro">Salvar livro</button>
+            </div>
+        </form>
+    </dialog>
 
 </body>
 </html>
