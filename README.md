@@ -108,6 +108,9 @@ A coleção de requisições do Postman está disponível na pasta postman.
 ### Painel de indicadores
 ![Painel](prints/painel.png)
 
+### Painel de indicadores
+![Painel](prints/graficos.png)
+
 ### Ambiente Docker
 ![Docker](prints/docker.png)
 
