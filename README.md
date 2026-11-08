@@ -8,16 +8,16 @@ Projeto desenvolvido para a atividade prática de Banco de Dados, utilizando uma
 - Kelly Neuendorf
 - Nahayana Kermilin Vieira
 
-**Divisão de tarefas:**
-- Dados e Docker: Kelly Neuendorf
-- API e HTTP: Nahayana Kermilin Vieira
-- Frontend: Fellype Gabriel Carlins
+*Divisão de tarefas:*
+- Dados e Docker: Kelly Neuendorf (Auxilio no README)
+- API e HTTP: Nahayana Kermilin Vieira (Auxilio no Frontend)
+- Frontend: Fellype Gabriel Carlins (Auxilio no README)
 
 ## 2. Tema e API utilizada
 
-**Tema:** Livros
+*Tema:* Livros
 
-**API:** [Open Library](https://openlibrary.org/developers/api)
+*API:* [Open Library](https://openlibrary.org/developers/api)
 
 A aplicação busca livros sobre programação e salva até 30 registros no MongoDB.
 
@@ -27,15 +27,15 @@ A aplicação busca livros sobre programação e salva até 30 registros no Mong
 
 Na pasta principal do projeto, execute:
 
-```powershell
+powershell
 docker compose up -d
-```
+
 
 Para verificar os containers:
 
-```powershell
+powershell
 docker compose ps
-```
+
 
 A aplicação estará disponível em:
 
@@ -45,21 +45,21 @@ A aplicação estará disponível em:
 
 Para parar os containers:
 
-```powershell
+powershell
 docker compose down
-```
+
 
 Para apagar os containers e os dados armazenados:
 
-```powershell
+powershell
 docker compose down -v
-```
+
 
 ## 4. Modelo do documento JSON
 
-Exemplo de documento utilizado na coleção `books`:
+Exemplo de documento utilizado na coleção books:
 
-```json
+json
 {
   "titulo": "Livro de exemplo",
   "autores": ["Autor de exemplo"],
@@ -78,34 +78,43 @@ Exemplo de documento utilizado na coleção `books`:
     "url": ""
   }
 }
-```
 
-Os autores e assuntos foram armazenados em listas, enquanto a origem foi organizada em um objeto dentro do documento. Esses dados foram embutidos porque são utilizados junto às informações de cada livro.
+
+Os autores e assuntos são listas embutidas, e a origem é um objeto embutido. Esses dados ficam junto ao livro porque são utilizados nas consultas e na exibição das informações.
 
 ## 5. Métodos HTTP
 
-As operações são realizadas no RESTHeart, utilizando a coleção `books`.
+As operações são realizadas no RESTHeart, utilizando a coleção books.
 
 | Método | Endpoint | Status esperado |
 |---|---|---|
-| PUT | `/books` | 201 |
-| POST | `/books` | 201 |
-| GET | `/books?pagesize=100` | 200 |
-| GET | `/books/{id}` | 200 ou 404 |
-| PUT | `/books/{id}` | 200 |
-| PATCH | `/books/{id}` | 200 |
-| DELETE | `/books/{id}` | 204 |
+| PUT | /books | 201 |
+| POST | /books | 201 |
+| GET | /books?pagesize=100 | 200 |
+| GET | /books/{id} | 200 ou 404 |
+| PUT | /books/{id} | 200 |
+| PATCH | /books/{id} | 200 |
+| DELETE | /books/{id} | 204 |
 
-A autenticação local do RESTHeart utiliza usuário `admin` e senha `secret`.
+A autenticação local do RESTHeart utiliza usuário admin e senha secret.
 
-A coleção de requisições do Postman está disponível na pasta `postman`.
+A coleção de requisições do Postman está disponível na pasta postman.
+
+## Prints do sistema
+
+### Biblioteca de livros
+![Biblioteca](prints/biblioteca.png)
+
+### Painel de indicadores
+![Painel](prints/painel.png)
+
+### Ambiente Docker
+![Docker](prints/docker.png)
 
 ## 7. Conclusão
 
-Com os livros cadastrados, foi possível analisar a quantidade de publicações por década, os assuntos mais frequentes e os autores com mais obras na coleção.
-
-**Conclusão dos dados:** [Inserir aqui os resultados observados após a importação dos livros.]
+Com os livros cadastrados, o painel permite observar a distribuição das publicações por década, os assuntos mais frequentes e os autores com maior número de obras. Os gráficos e indicadores facilitam a visualização dessas informações e ajudam a identificar as principais características da coleção.
 
 ## 8. Uso de inteligência artificial
 
-A inteligência artificial foi utilizada como apoio para esclarecer dúvidas, revisar e organizar partes do código. O grupo revisou o projeto e participou do desenvolvimento das funcionalidades.
+A inteligência artificial foi utilizada como apoio para esclarecer dúvidas, revisar e organizar partes do código. O grupo revisou o projeto e participou do desenvolvimento das funcionalidades. Foi utilizada para apoio no desenvolvimento do Frontend e para retirar dúvidas sobre a API.

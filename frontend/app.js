@@ -1,5 +1,5 @@
 
-const API_URL = "/api/books";
+const API_URL = "http://localhost:8080/books.";
 const OPEN_LIBRARY_URL = "http://localhost:8080/books.";
 const CABECALHOS = {
     "Content-Type": "application/json",
