@@ -1,6 +1,6 @@
 
 const API_URL = "http://localhost:8080/books.";
-const OPEN_LIBRARY_URL = "http://localhost:8080/books.";
+const OPEN_LIBRARY_URL = "https://openlibrary.org/search.json?subject=programming&limit=60&fields=key,title,author_name,first_publish_year,subject,isbn,cover_i,number_of_pages_median,publisher";
 const CABECALHOS = {
     "Content-Type": "application/json",
     "Authorization": "Basic " + btoa("admin:secret")
